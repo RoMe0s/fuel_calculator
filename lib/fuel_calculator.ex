@@ -22,8 +22,10 @@ defmodule FuelCalculator do
     actions
     |> Enum.reverse()
     |> Enum.reduce(0, fn {type, gravity}, total_fuel_weight ->
-      total_fuel_weight +
-        CalculatorWorker.calculate(equipment_weight + total_fuel_weight, gravity, type)
+      equipment_weight
+      |> Kernel.+(total_fuel_weight)
+      |> CalculatorWorker.calculate(gravity, type)
+      |> Kernel.+(total_fuel_weight)
     end)
   end
 end
